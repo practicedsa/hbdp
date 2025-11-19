@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Priya - Elegant Wish</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* --- 🎨 ELEGANT, UNIFIED VARIABLES --- */
+        :root {
+            --color-bg-light: #ffffff;      /* Crisp White Background */
+            --color-primary-accent: #ff7f50; /* Vivid Peach/Coral */
+            --color-secondary-accent: #008080; /* Deep Teal/Turquoise */
+            --color-text-dark: #333333;
+            --color-card-base: #fcf8f5;     /* Unified Off-White/Cream Card Base */
+            --color-reasons-section-bg: #f9f2ed; /* Very Light Peach Background for Section */
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-card-hover: 0 10px 25px rgba(0, 128, 128, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        
+        .reasons strong {
+            font-weight: 700;
+            color: var(--color-primary-accent);
+        }
+
+        /* --- Global Styles & Layout --- */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        h2.section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--color-secondary-accent);
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            padding: 0 10px; /* Prevent edge touching on mobile */
+        }
+        
+        h2.section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background-color: var(--color-primary-accent);
+            margin: 10px auto 0;
+        }
+
+        /* --- 🖼️ HEADER/HERO SECTION --- */
+        header {
+            background-color: var(--color-card-base);
+            height: 100vh; /* Full viewport height on desktop */
+            min-height: 600px; /* Minimum height for safety */
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .hero-content {
+            z-index: 10;
+            padding: 0 5%;
+            width: 100%;
+        }
+
+        .hero-text {
+            width: 50%;
+            padding-right: 5%;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: 4.5rem; 
+            line-height: 1.1;
+            color: var(--color-primary-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: saturate(1.1) brightness(1.05);
+            display: block;
+        }
+
+        /* --- 💌 OPENING DEDICATION --- */
+        .dedication {
+            text-align: center;
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, var(--color-bg-light) 0%, var(--color-card-base) 100%);
+        }
+        
+        .dedication-box {
+            max-width: 750px;
+            margin: 0 auto;
+            font-style: italic;
+            font-size: 1.35rem;
+            color: var(--color-secondary-accent);
+            border-left: 5px solid var(--color-primary-accent);
+            padding-left: 25px;
+            line-height: 1.6;
+        }
+
+        /* --- ❤️ REASONS SECTION --- */
+        .reasons {
+            background-color: var(--color-reasons-section-bg); 
+            padding: 4rem 0 6rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            /* Adjusted minmax to 280px to fit smaller mobile screens better */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .reason-card {
+            background-color: var(--color-bg-light); 
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
+            text-align: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, border 0.3s, box-shadow 0.3s;
+            border-bottom: 3px solid var(--color-card-base); 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .reason-card:nth-child(odd) { border-top: 5px solid var(--color-primary-accent); }
+        .reason-card:nth-child(even) { border-top: 5px solid var(--color-secondary-accent); }
+
+        .reason-card:hover {
+            transform: translateY(-8px);
+            background: var(--color-card-base); 
+            border-top-width: 8px; 
+            border-bottom-color: var(--color-primary-accent); 
+            box-shadow: var(--shadow-card-hover); 
+        }
+
+        .reason-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--color-secondary-accent); 
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .reason-card i {
+            color: var(--color-primary-accent); 
+            margin-right: 15px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            background-color: rgba(255, 127, 80, 0.1); 
+            padding: 8px;
+            border-radius: 50%;
+            flex-shrink: 0; /* Prevents icon from squishing */
+        }
+        
+        .reason-card:hover i {
+            color: var(--color-secondary-accent); 
+            transform: scale(1.1);
+            background-color: rgba(0, 128, 128, 0.1);
+        }
+
+        /* --- 🥂 CLOSING --- */
+        .closing {
+            text-align: center;
+            padding: 6rem 1rem;
+            background-color: var(--color-bg-light);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 45px;
+            background-color: var(--color-primary-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 2rem;
+            transition: background 0.3s, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+            box-shadow: 0 8px 20px rgba(255, 127, 80, 0.6);
+        }
+
+        .btn:hover {
+            background-color: var(--color-secondary-accent);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 128, 128, 0.4);
+        }
+        
+        /* --- 🚀 ANIMATIONS --- */
+        .animate-on-scroll {
+            transition: opacity 1s cubic-bezier(0.65, 0.05, 0.36, 1), transform 1s cubic-bezier(0.65, 0.05, 0.36, 1);
+        }
+
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .hero-text h1, .hero-text p, .hero-text .btn {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeIn 1.5s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .hero-text p { animation-delay: 0.3s; }
+        .hero-text .btn { animation-delay: 0.6s; }
+
+        @keyframes heroFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 📱 RESPONSIVE ADJUSTMENTS --- */
+        
+        /* Tablet and Mobile */
+        @media (max-width: 900px) {
+            header {
+                height: auto; /* Let content define height */
+                min-height: auto;
+                flex-direction: column-reverse; /* Image on top, Text below */
+                padding-bottom: 3rem;
+            }
+
+            .hero-text {
+                width: 100%;
+                padding: 3rem 1.5rem 0 1.5rem; /* Padding around text */
+                text-align: center;
+                z-index: 10;
+            }
+            
+            .hero-text h1 {
+                font-size: 3.2rem; /* Smaller font for mobile */
+            }
+
+            .hero-image {
+                position: relative; /* Stacks normally now */
+                width: 100%;
+                height: 50vh; /* Takes up half the screen height */
+                right: auto;
+                top: auto;
+            }
+            
+            h2.section-title {
+                font-size: 2.2rem;
+            }
+            
+            .dedication { padding: 3rem 0; }
+            .dedication-box { font-size: 1.2rem; padding-left: 15px; }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-image { height: 40vh; } /* Slightly shorter image on small screens */
+            .container { width: 92%; padding: 3rem 0; }
+            .reason-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <p style="text-transform: uppercase; font-weight: 600; color: var(--color-secondary-accent); letter-spacing: 1px;">A Day Just For You</p>
+                <h1 class="hero-title">Happy Birthday, Priya!</h1> 
+                <p>
+                    Today we celebrate the most wonderful woman I know. 
+                    Your light makes the world a better place, and I love you more than words can say.
+                </p>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://plus.unsplash.com/premium_vector-1727343181585-e08a8a8ad307?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Priya on her birthday - Love Theme">
+        </div>
+    </header>
+
+    <section class="dedication">
+        <div class="container">
+            <div class="dedication-box animate-on-scroll">
+                "Every day with you is a gift, but today is the one day where the world gets to stop and appreciate the incredible joy you bring. I hope this simple page gives you a glimpse into my heart."
+            </div>
+        </div>
+    </section>
+
+    <section class="reasons">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">The Reasons I Adore You</h2>
+            <div class="cards-grid">
+                
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h3><i class="fas fa-laugh-squint"></i> That Incredible Smile</h3>
+                    <p>Your <strong>smile</strong> is pure sunshine and instantly brightens my entire world.</p>
+                </div>
+
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h3><i class="fas fa-hand-holding-heart"></i> Your Deep Empathy</h3>
+                    <p>Your capacity for <strong>kindness</strong> and <strong>caring</strong> inspires me to be a better person.</p>
+                </div>
+
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.3s;">
+                    <h3><i class="fas fa-heartbeat"></i> The Comfort of Your Soul</h3>
+                    <p>I find deep <strong>comfort</strong> in your presence; you are my safe haven and true home.</p>
+                </div>
+
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h3><i class="fas fa-leaf"></i> Effortless Joy</h3>
+                    <p>I cherish your natural <strong>simplicity</strong> and the quiet joy you bring to daily life.</p>
+                </div>
+
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h3><i class="fas fa-map-marked-alt"></i> The Thrill of Adventure</h3>
+                    <p>You turn everyday life into an <strong>adventure</strong>, making every memory vivid and exciting.</p>
+                </div>
+                
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.3s;">
+                    <h3><i class="fas fa-magic"></i> You Make Me Feel Valued</h3>
+                    <p>You have a wonderful way of making me <strong>feel special</strong>, cherished, and completely seen.</p>
+                </div>
+                
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h3><i class="fas fa-star"></i> The Goodness You Share</h3>
+                    <p>I admire the profound <strong>good heart</strong> you share with the world, always putting others first.</p>
+                </div>
+
+                <div class="reason-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h3><i class="fas fa-globe-americas"></i> Our Unwritten Future</h3>
+                    <p>I look forward to every single day because I know you are part of <strong>our future</strong>.</p>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="closing">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Here's to You</h2>
+            <p class="animate-on-scroll" style="max-width: 600px; margin: 0 auto;">
+                I hope this year brings you all the happiness and success you deserve. You are my best friend, my soulmate, and the best part of my life. Happy Birthday, my love!
+            </p>
+            <a href="#" class="btn animate-on-scroll" id="celebrate-btn">Let's Celebrate!</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. SCROLL ANIMATION LOGIC ---
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // --- 2. CONFETTI LOGIC ---
+            const celebrateButton = document.getElementById('celebrate-btn');
+            
+            if (celebrateButton && typeof confetti === 'function') {
+                celebrateButton.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    
+                    // Main Confetti Burst
+                    confetti({
+                        particleCount: 150,
+                        spread: 180,
+                        origin: { y: 0.6 },
+                        colors: ['#ff7f50', '#008080', '#fcf8f5', '#ffffff'] // Theme colors
+                    });
+
+                    // Second, smaller burst for sustained effect
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 100,
+                            startVelocity: 40,
+                            gravity: 0.8,
+                            decay: 0.92,
+                            scalar: 1.2,
+                            zIndex: 9999,
+                            colors: ['#ff7f50', '#008080', '#f9f2ed']
+                        });
+                    }, 500); 
+                });
+            } else {
+                celebrateButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert("Happy Birthday!");
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
+
